@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta
+        name='viewport'
+        content='width=device-width, initial-scale=1.0'
+    >
+    <script src='https://cdn.tailwindcss.com'></script>
+</head>
+<body>
+    <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
+        <div class="sm:flex sm:items-center px-6 py-4">
+            <img
+                class="block mx-auto sm:mx-0 sm:flex-shrink-0 h-16 sm:h-24 rounded-full"
+                src="https://via.placeholder.com/150"
+                alt="User avatar"
+            >
+            <div class="mt-4 sm:mt-0 sm:ml-4 text-center sm:text-left">
+                <p class="text-xl leading-tight"><%= user.username %></p>
+                <p class="text-sm leading-tight text-gray-600">Software Engineer</p>
+                <div class="mt-4">
+                    <button
+                        class="text-purple-500 hover:text-white hover:bg-purple-500 border border-purple-500 font-semibold py-2 px-4 rounded-full"
+                    >
+                        Follow
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
+        <div class="px-6 py-4">
+            <h2 class="text-xl font-semibold">Tweets</h2>
+            <% user.tweets.forEach(function(tweet) { %>
+            <div class="mt-4">
+                <p class="text-gray-800"><%= tweet.text %></p>
+                <p class="text-sm text-gray-600"><%= tweet.createdAt.toDateString() %></p>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</body>
+</html>
