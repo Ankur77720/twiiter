@@ -17,8 +17,39 @@
             <p class="text-gray-600 text-sm">- <%= tweet.username %></p>
             <a href="/like-tweet/<%= tweet._id %>">like tweet</a>
             <h1> likes : <%= tweet.likes.length %> </h1>
+
+            <form
+                action="/comment/<%= tweet._id %>"
+                method="post"
+                class="mt-4 flex gap-2"
+            >
+                <input
+                    type="text"
+                    name="comment"
+                    placeholder="Write a comment"
+                    class="border border-gray-300 p-2 rounded"
+                >
+                <button
+                    type="submit"
+                    class="bg-blue-500 text-white p-2 rounded mt-2"
+                >Comment</button>
+            </form>
+
+
+            <h2 class="my-3s">Comments</h2>
+
+            <hr class="my-3">
+
+            <ul class="list-disc pl-5">
+                <% tweet.comments.forEach(comment =>{ %>
+
+                <li> <%= comment.data %> </li>
+
+                <% }) %>
+            </ul>
+
         </div>
         <% }) %>
-    </div>
+        </< /ul>div>
 </body>
 </html>

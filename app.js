@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const authMiddleware = require('./middleware/authMiddleware')
 const tweetModel = require('./models/tweet.model')
+const commentModel = require('./models/comment.model')
 
 app.set('view engine', 'ejs')
 app.use(express.json())
@@ -25,7 +26,6 @@ app.get('/', (req, res) => {
 app.get('/register', (req, res) => {
     res.render('register')
 })
-
 
 app.post('/register', async (req, res) => {
 
@@ -45,8 +45,6 @@ app.post('/register', async (req, res) => {
 
     res.redirect('/profile')
 })
-
-
 
 app.get('/login', (req, res) => {
     res.render('login')
@@ -110,7 +108,7 @@ app.get('/profile', authMiddleware.authUser, async (req, res, next) => {
 
 
 app.get('/feed', authMiddleware.authUser, async (req, res, next) => {
-    const tweets = await tweetModel.find()
+    const tweets = await tweetModel.find().populate('comments')
 
     res.render('feed', { tweets })
 })
@@ -130,6 +128,26 @@ app.get('/like-tweet/:id', authMiddleware.authUser, async (req, res, next) => {
     }
 
     await tweet.save()
+
+    res.redirect('/feed')
+
+})
+
+
+app.post('/comment/:id', authMiddleware.authUser, async (req, res, next) => {
+
+    const newComment = await commentModel.create({
+        user: req.user._id,
+        data: req.body.comment,
+        tweet: req.params.id
+    })
+
+    const tweet = await tweetModel.findOne({ _id: req.params.id })
+    tweet.comments.push(newComment._id)
+
+    await tweet.save()
+
+
 
     res.redirect('/feed')
 
